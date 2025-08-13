@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import { MyNavbar } from "@/Components/MyNavbar";
+import MyNavbar from "@/Components/MyNavbar";
 
 export default function Layout({ children }) {
     return (
