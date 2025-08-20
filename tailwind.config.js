@@ -22,7 +22,11 @@ module.exports = {
           fadeIn: "fadeIn 0.3s ease-out",
           fadeOut: "fadeOut 0.3s ease-in",
         },
+        fontFamily: {
+          irish: ['Irish Grover', 'cursive'],
+        },
       },
+      
     },
     plugins: [],
   };

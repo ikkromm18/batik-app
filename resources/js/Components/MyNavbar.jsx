@@ -1,44 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@inertiajs/react";
 
 export default function MyNavbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isVisible, setIsVisible] = useState(false); // untuk transisi keluar
+    const [isVisible, setIsVisible] = useState(false);
 
     const navItems = [
-        "Home",
-        "About",
-        "Discover Batik",
-        "Fun & Feedback",
-        "Grattitude",
+        { label: "Home", url: "/" },
+        { label: "About", url: "/about" },
+        { label: "Discover Batik", url: `/discover-batik` },
+        { label: "Fun & Feedback", url: "/fun" },
+        { label: "Grattitude", url: "/grattitude" },
     ];
 
     const openMenu = () => {
         setIsVisible(true);
-        setTimeout(() => setIsOpen(true), 10); // delay kecil biar transisi jalan
+        setTimeout(() => setIsOpen(true), 10);
     };
 
     const closeMenu = () => {
         setIsOpen(false);
-        setTimeout(() => setIsVisible(false), 1000); // tunggu animasi selesai
+        setTimeout(() => setIsVisible(false), 1000);
     };
 
+    // (opsional) kunci scroll saat menu terbuka
+    useEffect(() => {
+        if (isVisible) document.body.style.overflow = "hidden";
+        else document.body.style.overflow = "";
+        return () => (document.body.style.overflow = "");
+    }, [isVisible]);
+
     return (
-        <nav className="z-10 fixed w-full bg-transparent">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16 items-center">
-                    {/* Logo */}
-                    <div className="flex-shrink-0 text-yellow-300 font-extrabold text-xl">
+        <nav
+            className="fixed inset-x-0 top-0 z-[9999] w-full bg-transparent"
+            style={{ fontFamily: "Irish Grover, cursive" }}
+        >
+            <div className="px-4 mx-auto max-w-8xl sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                    <div className="flex-shrink-0 text-xl font-extrabold text-yellow-300">
                         BATIK
                     </div>
 
-                    {/* Hamburger Button */}
                     <button
                         onClick={openMenu}
-                        className="inline-flex items-center justify-center p-2 rounded-md text-yellow-300 hover:bg-yellow-300/20 focus:outline-none"
+                        className="inline-flex items-center justify-center p-2 text-yellow-300 rounded-md hover:bg-yellow-300/20 focus:outline-none"
+                        aria-expanded={isVisible}
+                        aria-controls="fullmenu"
                     >
                         <svg
-                            className="h-6 w-6"
+                            className="w-6 h-6"
                             stroke="currentColor"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -54,20 +64,20 @@ export default function MyNavbar() {
                 </div>
             </div>
 
-            {/* Fullscreen Menu */}
             {isVisible && (
                 <div
-                    className={`fixed inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center space-y-6 transform transition-transform duration-1000 ${
+                    id="fullmenu"
+                    className={`fixed inset-0 z-[10000] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center space-y-6 transform transition-transform duration-1000 ${
                         isOpen ? "translate-y-0" : "-translate-y-full"
                     }`}
                 >
-                    {/* Tombol Close */}
                     <button
                         onClick={closeMenu}
-                        className="absolute top-6 right-6 text-yellow-300 hover:text-yellow-400 transition-colors"
+                        className="absolute text-yellow-300 transition-colors top-6 right-6 hover:text-yellow-400"
+                        aria-label="Close menu"
                     >
                         <svg
-                            className="h-8 w-8"
+                            className="w-8 h-8"
                             stroke="currentColor"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -81,15 +91,14 @@ export default function MyNavbar() {
                         </svg>
                     </button>
 
-                    {/* Menu Items */}
                     {navItems.map((item) => (
                         <Link
-                            key={item}
-                            href="#"
-                            className="relative text-yellow-300 text-3xl font-semibold group"
+                            key={item.label}
+                            href={item.url}
+                            className="relative text-3xl font-semibold text-yellow-300 group"
                             onClick={closeMenu}
                         >
-                            {item}
+                            {item.label}
                             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-yellow-300 transition-all duration-1000 group-hover:w-full"></span>
                         </Link>
                     ))}

@@ -9,8 +9,8 @@ function Home() {
             <div className="relative h-screen overflow-hidden">
                 {/* Video Background */}
                 <video
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                    src="/video/video-home.mp4"
+                    className="absolute top-0 left-0 object-cover w-full h-full"
+                    src="/video/homepage.mp4"
                     autoPlay
                     loop
                     muted
@@ -18,48 +18,51 @@ function Home() {
                 ></video>
 
                 {/* Overlay hitam tipis biar teks jelas */}
-                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
 
                 {/* Tulisan di Tengah */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <p className="font-semibold text-yellow-300 text-3xl">
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center"
+                    style={{ fontFamily: "Irish Grover, cursive" }}
+                >
+                    <p className="text-3xl font-semibold text-yellow-300">
                         Lorem ipsum dolor sit amet.
                     </p>
-                    <p className="font-semibold text-yellow-300 text-3xl">
+                    <p className="text-3xl font-semibold text-yellow-300">
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Magnam, sit.
                     </p>
-                    <h1 className="font-bold text-[250px] text-yellow-300">
+                    <h1 className="font-bold text-[300px] text-yellow-300">
                         BATIK
                     </h1>
-                    <p className="font-semibold text-yellow-300 text-3xl">
+                    <p className="text-3xl font-semibold text-yellow-300">
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Magnam, sit.
                     </p>
-                    <p className="font-semibold text-yellow-300 text-3xl">
+                    <p className="text-3xl font-semibold text-yellow-300">
                         Lorem ipsum dolor sit amet.
                     </p>
                 </div>
 
                 <Footer
                     container
-                    className="absolute bottom-0 left-0 p-4 bg-transparent"
+                    className="absolute bottom-0 left-0 px-8 py-4 bg-transparent"
                 >
                     <div className="flex space-x-6">
                         <FooterIcon
                             href="#"
                             icon={BsYoutube}
-                            className="text-yellow-300 hover:text-yellow-400 text-2xl"
+                            className="text-2xl text-yellow-300 hover:text-yellow-400"
                         />
                         <FooterIcon
                             href="#"
                             icon={FaTiktok}
-                            className="text-yellow-300 hover:text-yellow-400 text-2xl"
+                            className="text-2xl text-yellow-300 hover:text-yellow-400"
                         />
                         <FooterIcon
                             href="#"
                             icon={BsInstagram}
-                            className="text-yellow-300 hover:text-yellow-400 text-2xl"
+                            className="text-2xl text-yellow-300 hover:text-yellow-400"
                         />
                     </div>
                 </Footer>
