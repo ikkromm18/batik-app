@@ -1,4 +1,79 @@
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import CardAbout from "../Components/CardAbout";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { backgroundImage } from "flowbite-react/plugin/tailwindcss/theme";
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function About() {
+    const pinSectionRef = useRef(null);
+    const cardsRef = useRef([]);
+
+    const cardData = [
+        {
+            title: "INTRODUCING MY CULTURE",
+            body: "I grew up in Pekalongan, one of the biggest batik-producing cities in Indonesia. Batik is everywhere here — from school lessons to everyday outfits. It’s part of who I am.",
+        },
+        {
+            title: "CLEARING MISCONCEPTIONS",
+            body: "Many people, even Indonesians, still think “batik” is just a cloth or the name of a fashion style. But actually, it’s more than that — it’s a centuries-old wax-resist dyeing technique with patterns that tell stories, carry meaning, and reflect identity.",
+        },
+        {
+            title: "KEEPING TRADITION ALIVE (WITH A MODERN TWIST)",
+            body: "Batik is an ancient tradition, but that doesn’t mean it has to be boring. I want to make it feel alive, relatable, and Instagram-worthy for younger generations — without losing its roots.",
+        },
+        {
+            title: "BATIK DESERVES THE SPOTLIGHT",
+            body: "Batik isn’t just fabric; it’s culture, history, and identity woven into every thread. If we don’t talk about it, share it, and celebrate it, it might fade away. And I’m not letting that happen on my watch.",
+        },
+        {
+            title: "I CAN’T GRADUATE WITHOUT IT",
+            body: "Yes, this is my graduation project — and yes, I do want to graduate. Which means if you’re reading this and learning something about batik, you’re already helping me get one step closer to my diploma.",
+        },
+    ];
+
+    useEffect(() => {
+        if (!pinSectionRef.current) return;
+
+        const trigger = ScrollTrigger.create({
+            trigger: pinSectionRef.current,
+            start: "top top",
+            end: () => "+=" + document.querySelector(".card").scrollHeight,
+            pin: true,
+            pinSpacing: false,
+            scrub: false,
+            markers: false, // bisa dihapus nanti
+        });
+
+        cardsRef.current.forEach((card, i) => {
+            let xFrom = 0;
+            let yFrom = 0;
+
+            if (i % 3 === 0) xFrom = -200; // card kiri → masuk dari kiri
+            if (i % 3 === 1) xFrom = 50; // card kanan → masuk dari kanan
+            if (i % 3 === 2) yFrom = 100; // card tengah → masuk dari bawah
+
+            gsap.from(card, {
+                opacity: 0,
+                x: xFrom,
+                y: yFrom,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
+                },
+            });
+        });
+
+        return () => {
+            trigger.kill(); // cleanup
+        };
+    }, []);
+
     return (
         <>
             <div className="">
@@ -26,7 +101,98 @@ export default function About() {
                         />
                     </div>
                 </section>
-                <section className="min-h-screen bg-[#843514]"></section>
+
+                <section className="min-h-screen bg-[#843514]">
+                    <div className="flex flex-col p-16 space-y-4 pt-28">
+                        {/* Icon Information */}
+                        <div className="flex items-center justify-center p-5 rounded-full bg-[#FCAD34] w-16 h-16">
+                            <p className="text-4xl font-bold">i</p>
+                        </div>
+
+                        <h2
+                            className="text-4xl text-[#FCAD34] font-extrabold leading-relaxed max-w-4xl"
+                            style={{ fontFamily: "Montserrat, sans-serif" }}
+                        >
+                            THIS WEBSITE IS A PLATFORM TO SHARE STORIES ABOUT
+                            BATIK, THE THEME OF MY GRADUATION PROJECT. ALL
+                            PHOTOS, VIDEOS, AND INFORMATION ARE TAKEN AND
+                            WRITTEN BY ME
+                        </h2>
+                    </div>
+                </section>
+
+                <section className="min-h-screen bg-[#843514]">
+                    <div className="flex flex-col items-center justify-center p-16 space-y-4 pt-28">
+                        {/* Bagian Title yang akan ngefreeze */}
+                        <div
+                            ref={pinSectionRef}
+                            className="flex flex-col items-center justify-center min-h-screen"
+                        >
+                            <div className="flex items-center justify-center p-5 rounded-full bg-[#FCAD34] w-16 h-16">
+                                <p className="text-4xl font-bold">i</p>
+                            </div>
+                            <h2
+                                className="text-8xl text-[#FCAD34] font-extrabold leading-28 max-w-2xl text-center"
+                                style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                                WHY I MADE THIS ?
+                            </h2>
+                        </div>
+
+                        {/* Bagian Card */}
+                        <div className="w-full card">
+                            {cardData.map((cd, index) => (
+                                <div
+                                    key={index}
+                                    ref={(el) => (cardsRef.current[index] = el)}
+                                    className={`min-h-screen flex 
+        ${index % 3 === 0 ? "justify-start" : ""} 
+        ${index % 3 === 1 ? "justify-end" : ""} 
+        ${index % 3 === 2 ? "justify-center" : ""}`}
+                                >
+                                    <div className="max-w-xl">
+                                        <CardAbout
+                                            title={cd.title}
+                                            body={cd.body}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section className=" bg-[#4C2514]">
+                    <div className="flex space-x-8">
+                        {/* Text */}
+                        <div className="flex flex-col justify-between max-w-3xl px-4 py-7">
+                            <h2
+                                className="text-4xl text-[#FCAD34] font-extrabold leading-relaxed "
+                                style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                                HOPE YOU ENJOY EXPLORING MORE ABOUT BATIK !
+                            </h2>
+                            <p
+                                className=" text-[#FCAD34] font-semibold"
+                                style={{ fontFamily: "Montserrat, sans-serif" }}
+                            >
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Laboriosam quas molestiae
+                                distinctio cum fuga itaque nihil perspiciatis
+                                totam in accusantium.
+                            </p>
+                        </div>
+
+                        {/* Background Image Box */}
+                        <div
+                            className="w-full bg-center bg-cover shadow-lg h-[700px] rounded-2xl"
+                            style={{
+                                backgroundImage:
+                                    "url('https://i.pinimg.com/1200x/18/8b/53/188b530790d5b24f66ba7bcf9cd7e741.jpg')",
+                            }}
+                        ></div>
+                    </div>
+                </section>
             </div>
         </>
     );
